@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sv-SE" class="no-js no-svg">
+<head>
+<meta charset="UTF-8">
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container"> 
+        <div id="calendarContainer"></div>
+    </div>
+
+<script>
+
+   /*
+Name: The Bookmaker
+Developer: Steffo Dimfelt, 2018
+Mail: steffo.dimfelt@gmail.com
+
+Sluggo Beat Experience uses jQuery and EMCA 6
+*/
+
+class dayButtons {
+    constructor(day){
+    this._day = day;
+    }
+
+    get day(){
+     //   console.log("get")
+     if (this._day<=9){this._day="0"+this._day}
+        return this._day;
+    }
+
+    set day(dayValue){
+        this._day = dayValue;
+     //   console.log(_day);
+    }
+
+}//END: class Buttons
+
+class monthConvert{
+    constructor(month){
+        this._month = month;
+    }
+
+    get month()
+    {
+        let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "Decembar"];
+        return monthOut[this._month];
+    }
+    set month(monthValue)
+    {
+        this._month = monthValue;
+    }
+
+
+}
+
+function getDaysInMonth(m, y) {
+   return /4|6|9|11/.test(m)?30:m==2?(!(y%4)&&y%100)||!(y%400)?29:28:31;
+}
+var basicDate = new monthConvert();
+
+
+
+    var today = new Date();
+    var month = today.getMonth();
+    var year = today.getFullYear();
+
+    basicDate.month=month;
+    console.log(basicDate.month);
+
+    console.log(month)
+    console.log(year)
+
+    var days = getDaysInMonth(month,year)
+    console.log(days)
+
+let ii =1;
+let calendarMapping = "<table class='table table-sm '>";
+    
+for (i=1;i<=days;i++)
+{
+  let thisDay = new dayButtons(i);
+    console.log("ii "+ii)
+  if (ii==1){ calendarMapping += "<tr>";}
+
+    calendarMapping += "<td><button type='button' class='btn btn-primary' >"+thisDay.day+"</button></td>";
+  //  document.getElementById("calendarContainer").innerHTML+="<tr>";
+  //          document.getElementById("calendarContainer").innerHTML+="<td>"+thisDay.day+"</td>";
+  //          document.getElementById("calendarContainer").innerHTML+="</tr>";
+   // document.getElementById("calendarContainer").innerHTML+="<div class='col'><Button class='btn btn-primary'>1</Button></div>";
+   // document.getElementById("calendarContainer").innerHTML+="<button type='button' class='btn btn-primary' >"+thisDay.day+"</button>";
+   if (ii>=7){ calendarMapping += "</tr>";}
+    if (ii<=6){ii++;}else{ii=1;}   
+}
+calendarMapping += "</table>";
+$("#calendarContainer").html(calendarMapping);
+
+/*
+    let monthNmb = basicDate.getMonth();
+
+    let thisMonth = new monthSetter(monthNmb);
+    document.getElementById("calendarContainer").innerHTML+="<div>"+thisMonth.month+"</div>";
+
+
+
+
+*/
+
+</script>  
+
+</body>
+</html>
