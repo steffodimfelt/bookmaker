@@ -8,7 +8,12 @@
   crossorigin="anonymous"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+<style>
+    .table {max-width:2em;}
+    .table td {padding:0;}
+    .table-sm td {padding:0.1em; }
+    p.btn {width:3em;}
+</style>
 </head>
 <body>
     <div class="container"> 
@@ -64,39 +69,44 @@ class monthConvert{
 function getDaysInMonth(m, y) {
    return /4|6|9|11/.test(m)?30:m==2?(!(y%4)&&y%100)||!(y%400)?29:28:31;
 }
-var basicDate = new monthConvert();
+   //Hämta alla grunddata och formatera kalendern
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let day = today.getDay();
+    let thisDay = today.getDate();
+    let daysInMonth = getDaysInMonth(month,year)
 
-
-
-    var today = new Date();
-    var month = today.getMonth();
-    var year = today.getFullYear();
-
+    //Formaterar månadsnamn
+    let basicDate = new monthConvert();
     basicDate.month=month;
-    console.log(basicDate.month);
+    console.log("Månandsnamn: "+basicDate.month);
 
-    console.log(month)
-    console.log(year)
+    //Formatera första dagen i månaden
+    let firstDay = new Date();
+    firstDay.setDate(firstDay.getDate() - (thisDay-1));
+    let firsdayNmb = firstDay.getDay();
+    console.log("Nummer på första dagen: "+firsdayNmb)
 
-    var days = getDaysInMonth(month,year)
-    console.log(days)
+
+
+    console.log("year"+year)
+    console.log("month"+month)
+    console.log("day"+day)
+    
+    console.log("firstDay "+firstDay)
+
 
 let ii =1;
-let calendarMapping = "<table class='table table-sm '>";
+let calendarMapping = "<table class='table table-sm m-0' >";
     
-for (i=1;i<=days;i++)
+for (i=1;i<=daysInMonth;i++) 
 {
   let thisDay = new dayButtons(i);
-    console.log("ii "+ii)
-  if (ii==1){ calendarMapping += "<tr>";}
-
-    calendarMapping += "<td><button type='button' class='btn btn-primary' >"+thisDay.day+"</button></td>";
-  //  document.getElementById("calendarContainer").innerHTML+="<tr>";
-  //          document.getElementById("calendarContainer").innerHTML+="<td>"+thisDay.day+"</td>";
-  //          document.getElementById("calendarContainer").innerHTML+="</tr>";
-   // document.getElementById("calendarContainer").innerHTML+="<div class='col'><Button class='btn btn-primary'>1</Button></div>";
-   // document.getElementById("calendarContainer").innerHTML+="<button type='button' class='btn btn-primary' >"+thisDay.day+"</button>";
-   if (ii>=7){ calendarMapping += "</tr>";}
+    //console.log("ii "+ii)
+    if (ii==1){ calendarMapping += "<tr >";}
+    calendarMapping += "<td class='border-0 ' style='text-align:center; '><p type='button' class='btn btn-primary m-0' >"+thisDay.day+"</p></td>";
+    if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
 }
 calendarMapping += "</table>";
