@@ -67,7 +67,7 @@ class monthConvert{
 }
 
 function getDaysInMonth(m, y) {
-   return /4|6|9|11/.test(m)?30:m==2?(!(y%4)&&y%100)||!(y%400)?29:28:31;
+    return new Date(y, m+1, 0).getDate();
 }
    //Hämta alla grunddata och formatera kalendern
     let today = new Date();
@@ -97,14 +97,35 @@ function getDaysInMonth(m, y) {
     console.log("firstDay "+firstDay)
 
 
+
+
+
+// Mapping calendar
 let ii =1;
 let calendarMapping = "<table class='table table-sm m-0' >";
-    
+
+//Set empty days at beginning of month
+let emptyStartDays="";
+switch (firsdayNmb)
+{
+    case 2: emptyStartDays ="<td></td>";ii =2;break;
+    case 3: emptyStartDays ="<td></td><td></td>";ii =3;break;
+    case 4: emptyStartDays ="<td></td><td></td><td></td>";ii =4;break;
+    case 5: emptyStartDays ="<td></td><td></td><td></td><td></td>";ii =5;break;
+    case 6: emptyStartDays ="<td></td><td></td><td></td><td></td><td></td>";ii =6;break;
+    case 0: emptyStartDays ="<td></td><td></td><td></td><td></td><td></td><td></td>";ii =7;break;
+}
+
+//Loop through calendardays
+   
 for (i=1;i<=daysInMonth;i++) 
 {
   let thisDay = new dayButtons(i);
     //console.log("ii "+ii)
     if (ii==1){ calendarMapping += "<tr >";}
+
+        if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
+
     calendarMapping += "<td class='border-0 ' style='text-align:center; '><p type='button' class='btn btn-primary m-0' >"+thisDay.day+"</p></td>";
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
