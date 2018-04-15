@@ -10,7 +10,7 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <style>
     .table {max-width:2em;}
-    .table td {padding:0;}
+    .table td {padding:0; border:0;}
     .table-sm td {padding:0.1em; }
     p.btn {width:3em;}
 </style>
@@ -26,8 +26,7 @@
 Name: The Bookmaker
 Developer: Steffo Dimfelt, 2018
 Mail: steffo.dimfelt@gmail.com
-
-Sluggo Beat Experience uses jQuery and ECMA 6
+Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
 class dayButtons {
@@ -66,39 +65,51 @@ class monthConvert{
 
 }
 
-function getDaysInMonth(m, y) {
+function getdaysInThisMonth(m, y) {
     return new Date(y, m+1, 0).getDate();
 }
-   //Hämta alla grunddata och formatera kalendern
+   //Get all data 
     let today = new Date();
     let month = today.getMonth();
     let year = today.getFullYear();
-    let day = today.getDay();
-    let thisDay = today.getDate();
-    let daysInMonth = getDaysInMonth(month,year)
+    let day = today.getDay();//Weekday number (0=söndag, 1=måndag osv)
+    let thisDay = today.getDate();//Date of today
+    let daysInThisMonth = getdaysInThisMonth(month,year)
 
-    //Formaterar månadsnamn
+    //Format name of the this month
     let basicDate = new monthConvert();
     basicDate.month=month;
-    console.log("Månandsnamn: "+basicDate.month);
 
-    //Formatera första dagen i månaden
-    let firstDay = new Date();
-    firstDay.setDate(firstDay.getDate() - (thisDay-1));
-    let firsdayNmb = firstDay.getDay();
-    console.log("Nummer på första dagen: "+firsdayNmb)
+   // console.log("Månandsnamn: "+basicDate.month);
+   // console.log("day"+day)
+   // console.log("get date "+thisDay)
 
-
-
-    console.log("year"+year)
-    console.log("month"+month)
-    console.log("day"+day)
+    //Get weekday number of this month
+    today.setDate(today.getDate() - (thisDay-1));
+    let firstDayThisMonth = today.getDay();
+  //  console.log("första dagen denna månad: "+firstDayThisMonth)
     
-    console.log("firstDay "+firstDay)
+    //Get weekday number of next month
+    today.setDate(today.getDate()+thisDay);
+    let firstDayNextMonth = today.getDay()+1;
+//  console.log ("första dagen nästa månad:"+firstDayNextMonth)
+
+    //Get number of days, next month
+    let nextMonth = today.getMonth()+1;
+    // console.log("nextMonth "+nextMonth)
+    let daysInNextMonth = getdaysInThisMonth(nextMonth,year)
+    // console.log("DAgar Nästa månad "+daysInNextMonth)
+
+//  nextMonth.setDate(nextMonth.getDate() - (thisDay-1));
+
+
+//Print out tables
+$("#calendarContainer").html(CalendarMapping(daysInThisMonth,firstDayThisMonth)+CalendarMapping(daysInNextMonth,firstDayNextMonth));
 
 
 
-
+function CalendarMapping(daysInThisMonth,firstDay)
+{
 
 // Mapping calendar
 let ii =1;
@@ -106,7 +117,7 @@ let calendarMapping = "<table class='table table-sm m-0' >";
 
 //Set empty days at beginning of month
 let emptyStartDays="";
-switch (firsdayNmb)
+switch (firstDay)
 {
     case 2: emptyStartDays ="<td></td>";ii =2;break;
     case 3: emptyStartDays ="<td></td><td></td>";ii =3;break;
@@ -118,7 +129,7 @@ switch (firsdayNmb)
 
 //Loop through calendardays
    
-for (i=1;i<=daysInMonth;i++) 
+for (i=1;i<=daysInThisMonth;i++) 
 {
   let thisDay = new dayButtons(i);
     //console.log("ii "+ii)
@@ -126,21 +137,20 @@ for (i=1;i<=daysInMonth;i++)
 
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
 
-    calendarMapping += "<td class='border-0 ' style='text-align:center; '><p type='button' class='btn btn-primary m-0' >"+thisDay.day+"</p></td>";
+    calendarMapping += "<td style='text-align:center; '><p type='button' class='btn btn-primary m-0' >"+thisDay.day+"</p></td>";
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
 }
 calendarMapping += "</table>";
-$("#calendarContainer").html(calendarMapping);
 
-/*
-    let monthNmb = basicDate.getMonth();
+return calendarMapping;
+}//END: Function CalendarMapping
 
-    let thisMonth = new monthSetter(monthNmb);
-    document.getElementById("calendarContainer").innerHTML+="<div>"+thisMonth.month+"</div>";
-
-
-
+/* Körschema
+1. Gör en funktion som mappar upp en månad [CHECK]
+2. Använd den funktion för att köra två månader. [CHECK]
+3. De två månaderna ska läggas in i div [CHECK]
+4. Ta reda på nummer på första dagen i denna månad, för att kunna veta vilken dag nästa börjar på
 
 */
 
