@@ -18,7 +18,11 @@
 <body>
     <div class="container"> 
             <div id="demo"></div>
+            <div class="p-3">
+                    <button type="button" id="formerMonth" class="btn btn-info">< Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info">Next Month ></button>
+            </div>            
         <div id="calendarContainer"></div>
+
     </div>
 
 <script>
@@ -68,13 +72,6 @@ class monthConvert{
 
 function getdaysInThisMonth(m, y) {
 
-
-
-    // months in JavaScript start at 0 so decrement by 1 e.g. 11 = Dec
-   // --m;
-
-    console.log("m "+m)
-
     // if month is Sept, Apr, Jun, Nov return 30 days
     if( /8|3|5|10/.test( m ) ) return 30;
 
@@ -92,43 +89,27 @@ function getdaysInThisMonth(m, y) {
 function mappingTwoMonths(changeCurrentMonth)
 {
 
-var date = new Date();
-var allOut="";
-allOut += "Detta år:"+date+"<br>";
+let date = new Date();
+let addToMonth = changeCurrentMonth;
+let currentMonth = date.getMonth()+addToMonth;
+let currentYear = date.getFullYear();
+let nextMonth = currentMonth+1;
+let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
+let daysOfNextMonth = getdaysInThisMonth (nextMonth, currentYear);
+let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
+let firstDayNextMonth = new Date(currentYear, nextMonth, 1);
 
-//var d = new Date();
-
-
-
-var addToMonth =changeCurrentMonth;
-
-var currentMonth = date.getMonth()+addToMonth;
-var currentYear = date.getFullYear();
-
-allOut += "Denna månad nr:"+currentMonth+"<br>";
-
-var nextMonth = currentMonth+1;
-
-allOut += "Nästa månad nr:"+nextMonth+"<br>";
-
-var daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
-
-allOut += "Dagar Denna månad:"+ daysOfCurrentMonth +"<br>";
-
-var daysOfNextMonth = getdaysInThisMonth (nextMonth, currentYear);
-
-allOut += "Dagar nästa månad:"+ daysOfNextMonth +"<br>";
-
-var firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
-
-allOut += "Första dagen denna månad "+ firstDayCurrentMonth +"<br>";
-allOut += "Första dagen denna månad "+ firstDayCurrentMonth.getDay() +"<br>";
-
-var firstDayNextMonth = new Date(currentYear, nextMonth, 1);
-allOut += "Första dagen nästa månad "+ firstDayNextMonth +"<br>";
-allOut += "Första dagen nästa månad "+ firstDayNextMonth.getDay() +"<br>";
-
-//document.getElementById("demo").innerHTML = allOut;
+// let allOut="";
+// allOut += "Detta år:"+date+"<br>";
+ //allOut += "Denna månad nr:"+currentMonth+"<br>";
+// allOut += "Nästa månad nr:"+nextMonth+"<br>";
+// allOut += "Dagar Denna månad:"+ daysOfCurrentMonth +"<br>";
+// allOut += "Dagar nästa månad:"+ daysOfNextMonth +"<br>";
+// allOut += "Första dagen denna månad "+ firstDayCurrentMonth +"<br>";
+// allOut += "Första dagen denna månad "+ firstDayCurrentMonth.getDay() +"<br>";
+// allOut += "Första dagen nästa månad "+ firstDayNextMonth +"<br>";
+// allOut += "Första dagen nästa månad "+ firstDayNextMonth.getDay() +"<br>";
+// document.getElementById("demo").innerHTML = allOut;
 
 
 $("#calendarContainer").html(CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay())+CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay()));
@@ -163,7 +144,7 @@ for (i=1;i<=daysInThisMonth;i++)
     //console.log("ii "+ii)
     if (ii==1){ calendarMapping += "<tr >";}
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-    calendarMapping += "<td style='text-align:center; '><p type='button' class='btn btn-primary m-0' >"+thisDay.day+"</p></td>";
+    calendarMapping += "<td style='text-align:center; '><button type='button' class='btn btn-primary m-0' >"+thisDay.day+"</button></td>";
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
 }
@@ -184,8 +165,21 @@ return calendarMapping;
 
 */
 
+$(function(){
+    var setNewMonth = 0;
+mappingTwoMonths(setNewMonth)
 
-mappingTwoMonths(8)
+$("#formerMonth").click(function(){
+   
+    setNewMonth<=0? setNewMonth=0: setNewMonth --;
+    mappingTwoMonths(setNewMonth)
+});
+$("#nextMonth").click(function(){
+    setNewMonth ++;
+    mappingTwoMonths(setNewMonth)
+});
+})
+
 
 </script>  
 
