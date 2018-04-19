@@ -17,6 +17,7 @@
 </head>
 <body>
     <div class="container"> 
+            <div id="demo"></div>
         <div id="calendarContainer"></div>
     </div>
 
@@ -66,62 +67,73 @@ class monthConvert{
 }
 
 function getdaysInThisMonth(m, y) {
-    return new Date(y, m+1, 0).getDate();
+
+
+
+    // months in JavaScript start at 0 so decrement by 1 e.g. 11 = Dec
+   // --m;
+
+    console.log("m "+m)
+
+    // if month is Sept, Apr, Jun, Nov return 30 days
+    if( /8|3|5|10/.test( m ) ) return 30;
+
+    // if month is not Feb return 31 days
+    if( m != 1 ) return 31;
+
+    // To get this far month must be Feb ( 1 )
+    // if the year is a leap year then Feb has 29 days
+    if( ( y % 4 == 0 && y % 100 != 0 ) || y % 400 == 0 ) return 29;
+
+    // Not a leap year. Feb has 28 days.
+    return 28;
 }
-   //Get all data 
-    let today = new Date();
-    let month = today.getMonth();
-    let year = today.getFullYear();
-    let day = today.getDay();//Weekday number (0=söndag, 1=måndag osv)
-    let thisDay = today.getDate();//Date of today
-    let daysInThisMonth = getdaysInThisMonth(month,year)
-    let lastDayOfThisMonth = new Date(year, month + 1, 0);
 
-    //Format name of the this month
-    let basicDate = new monthConvert();
-    basicDate.month=month;
+function mappingTwoMonths(changeCurrentMonth)
+{
 
-   // console.log("Månandsnamn: "+basicDate.month);
-   // console.log("day"+day)
-   // console.log("get date "+thisDay)
+var date = new Date();
+var allOut="";
+allOut += "Detta år:"+date+"<br>";
 
-
-   
-
-    //Get weekday number of this month
-    today.setDate(today.getDate() - (thisDay-1));
-    let firstDayThisMonth = today.getDay();
-  //  console.log("första dagen denna månad: "+firstDayThisMonth)
-    
-    //Get weekday number of next month
- //   let next = new Date();
- //   next.setDate(next.getDate());
-
-
-console.log("lastDayOfThisMonth "+lastDayOfThisMonth.getDay())
-
-//Fetch the first day in next month and format first day. 
-let firstDayNextMonth = lastDayOfThisMonth.getDay();
-firstDayNextMonth++;
-if (firstDayNextMonth==7){firstDayNextMonth = 0;}
-
-
- console.log ("första dagen nästa månad:"+firstDayNextMonth)
+//var d = new Date();
 
 
 
-    //Get number of days, next month
-    let nextMonth = today.getMonth()+1;
-    // console.log("nextMonth "+nextMonth)
-    let daysInNextMonth = getdaysInThisMonth(nextMonth,year)
-    // console.log("DAgar Nästa månad "+daysInNextMonth)
+var addToMonth =changeCurrentMonth;
 
-//  nextMonth.setDate(nextMonth.getDate() - (thisDay-1));
+var currentMonth = date.getMonth()+addToMonth;
+var currentYear = date.getFullYear();
+
+allOut += "Denna månad nr:"+currentMonth+"<br>";
+
+var nextMonth = currentMonth+1;
+
+allOut += "Nästa månad nr:"+nextMonth+"<br>";
+
+var daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
+
+allOut += "Dagar Denna månad:"+ daysOfCurrentMonth +"<br>";
+
+var daysOfNextMonth = getdaysInThisMonth (nextMonth, currentYear);
+
+allOut += "Dagar nästa månad:"+ daysOfNextMonth +"<br>";
+
+var firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
+
+allOut += "Första dagen denna månad "+ firstDayCurrentMonth +"<br>";
+allOut += "Första dagen denna månad "+ firstDayCurrentMonth.getDay() +"<br>";
+
+var firstDayNextMonth = new Date(currentYear, nextMonth, 1);
+allOut += "Första dagen nästa månad "+ firstDayNextMonth +"<br>";
+allOut += "Första dagen nästa månad "+ firstDayNextMonth.getDay() +"<br>";
+
+//document.getElementById("demo").innerHTML = allOut;
 
 
-//Print out tables
-$("#calendarContainer").html(CalendarMapping(daysInThisMonth,firstDayThisMonth)+CalendarMapping(daysInNextMonth,firstDayNextMonth));
+$("#calendarContainer").html(CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay())+CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay()));
 
+}//END: mappingTwoMonths
 
 function CalendarMapping(daysInThisMonth,firstDay)
 {
@@ -135,6 +147,7 @@ let emptyStartDays="";
 function mapTD(tdVal){for (x=1;x<tdVal;x++)emptyStartDays+="<td></td>";}
 switch (firstDay)
 {
+    case 1: ii=1;mapTD(ii);break;
     case 2: ii=2;mapTD(ii);break;
     case 3: ii=3;mapTD(ii);break;
     case 4: ii=4;mapTD(ii);break;
@@ -165,9 +178,14 @@ return calendarMapping;
 3. De två månaderna ska läggas in i div [CHECK]
 4. Ta reda på nummer på första dagen i denna månad, för att kunna veta vilken dag nästa börjar på [CHECK]
 5. Fånga upp sista dagen i första månaden [CHECK]
-6.  0 om första dagen i nästa månad är en söndag [CHECK]
+6.  0 om första dagen i nästa månad är en söndag [CHEKC]
+7. Mappa upp två månader efter varandra [CHECK]
+8. Fel när man byter månader. Dagarna synkar inte. [CHECK]
 
 */
+
+
+mappingTwoMonths(8)
 
 </script>  
 
