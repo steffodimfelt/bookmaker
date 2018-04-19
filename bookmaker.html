@@ -126,16 +126,9 @@ let calendarMapping = "<table class='table table-sm m-0' >";
 //Mapping empty days at beginning of month
 let emptyStartDays="";
 function mapTD(tdVal){for (x=1;x<tdVal;x++)emptyStartDays+="<td></td>";}
-switch (firstDay)
-{
-    case 1: ii=1;mapTD(ii);break;
-    case 2: ii=2;mapTD(ii);break;
-    case 3: ii=3;mapTD(ii);break;
-    case 4: ii=4;mapTD(ii);break;
-    case 5: ii=5;mapTD(ii);break;
-    case 6: ii=6;mapTD(ii);break;
-    case 0: ii=7;mapTD(ii);break;
-}
+
+firstDay == 0 ? ii=7 : ii=firstDay;
+mapTD(ii);
 
 //Loop through calendardays
 for (i=1;i<=daysInThisMonth;i++) 
