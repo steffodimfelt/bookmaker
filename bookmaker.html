@@ -155,6 +155,7 @@ return calendarMapping;
 6.  0 om första dagen i nästa månad är en söndag [CHEKC]
 7. Mappa upp två månader efter varandra [CHECK]
 8. Fel när man byter månader. Dagarna synkar inte. [CHECK]
+9. Årtal måste ändras när man går över årsskifte
 
 */
 
@@ -168,7 +169,7 @@ $("#formerMonth").click(function(){
     mappingTwoMonths(setNewMonth)
 });
 $("#nextMonth").click(function(){
-    setNewMonth ++;
+    setNewMonth>=6? setNewMonth=6: setNewMonth ++;
     mappingTwoMonths(setNewMonth)
 });
 })
