@@ -62,7 +62,7 @@ class monthConvert{
 
     get month()
     {
-        let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "Decembar"];
+        let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
         return monthOut[this._month];
     }
     set month(monthValue)
@@ -70,22 +70,6 @@ class monthConvert{
         this._month = monthValue;
     }
 }
-
-class nextYearHolder{
-    constructor(month){
-        this._month = month;
-    }
-
-    get month()
-    {
-        return  this._month;
-    }
-    set month(monthValue)
-    {
-        this._month = monthValue;
-    }
-}
-
 
 
 function getdaysInThisMonth(m, y) {
@@ -98,11 +82,13 @@ function mappingTwoMonths(addToMonth)
 let date = new Date();
 let currentYear = date.getFullYear();
 let nextYear = date.getFullYear();
-// console.log("date "+date)
-//let addToMonth = changeCurrentMonth;
+//console.log("date "+date)
 
-let currentMonth = date.getMonth()+addToMonth;
+date.setMonth(date.getMonth()+addToMonth);
+let currentMonth = date.getMonth();
 let nextMonth = currentMonth+1;
+    nextMonth==12&&(nextMonth=0)
+//console.log("nextMonth "+nextMonth)
 
 
 let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
@@ -114,10 +100,16 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 // console.log("nextMonth "+nextMonth)
 // console.log("firstDayNextMonth "+firstDayNextMonth)
 
+//Name the months
+let printCurrentMonth = new monthConvert(currentMonth);
+let printNextMonth = new monthConvert(nextMonth);
+// console.log("printCurrentMonth "+printCurrentMonth.month)
+// console.log("printNextMonth "+printNextMonth.month)
+
  let allOut="";
 // allOut += "Detta år:"+date+"<br>";
- allOut += "Denna månad nr:"+currentMonth+"<br>";
-    allOut += "Nästa månad nr:"+nextMonth+"<br>";
+ //allOut += "Denna månad nr:"+currentMonth+"<br>";
+//     allOut += "Nästa månad nr:"+nextMonth+"<br>";
 // allOut += "Dagar Denna månad:"+ daysOfCurrentMonth +"<br>";
 // allOut += "Dagar nästa månad:"+ daysOfNextMonth +"<br>";
 // allOut += "Första dagen denna månad "+ firstDayCurrentMonth +"<br>";
@@ -126,8 +118,14 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 // allOut += "Första dagen nästa månad "+ firstDayNextMonth.getDay() +"<br>";
  document.getElementById("demo").innerHTML = allOut;
 
+let makeTheBookmaker="";
+makeTheBookmaker += "<div>"+printCurrentMonth.month+"</div>";
+makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay());
+makeTheBookmaker += "<div>"+printNextMonth.month+"</div>";
+makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay());
 
-$("#calendarContainer").html(CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay())+CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay()));
+$("#calendarContainer").html(makeTheBookmaker);
+
 
 }//END: mappingTwoMonths
 
@@ -170,7 +168,7 @@ return calendarMapping;
 6.  0 om första dagen i nästa månad är en söndag [CHEKC]
 7. Mappa upp två månader efter varandra [CHECK]
 8. Fel när man byter månader. Dagarna synkar inte. [CHECK]
-9. Månadstalet måste ändras när man går över årsskifte annars adderas de bara. 
+9. Månadstalet måste ändras när man går över årsskifte annars adderas de bara. [CHECK]
 
 */
 
