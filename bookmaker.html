@@ -34,20 +34,15 @@ Mail: steffo.dimfelt@gmail.com
 Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
-
-
-
 class dayButtons {
     constructor(day){
     this._day = day;
     }
-
     get day(){
-     //   console.log("get")
+     //Format day number lower than 10
      if (this._day<=9){this._day="0"+this._day}
         return this._day;
     }
-
     set day(dayValue){
         this._day = dayValue;
      //   console.log(_day);
@@ -59,9 +54,9 @@ class monthConvert{
     constructor(month){
         this._month = month;
     }
-
     get month()
     {
+        //Array of names
         let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
         return monthOut[this._month];
     }
@@ -71,38 +66,42 @@ class monthConvert{
     }
 }
 
-
+//Return days of single month
 function getdaysInThisMonth(m, y) {
  return new Date(y, m+1, 0).getDate();
 }
 
 function mappingTwoMonths(addToMonth)
 {
-
+//Basic data to build on
 let date = new Date();
-let currentYear = date.getFullYear();
-let nextYear = date.getFullYear();
-//console.log("date "+date)
+// console.log("date "+date)
 
+//Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
 let nextMonth = currentMonth+1;
     nextMonth==12&&(nextMonth=0)
-//console.log("nextMonth "+nextMonth)
+//Name the months
+let printCurrentMonth = new monthConvert(currentMonth);
+let printNextMonth = new monthConvert(nextMonth);
 
+//Setup year format
+let currentYear = date.getFullYear();
+let nextYear;
+nextMonth==0 ? nextYear=currentYear+1:nextYear=currentYear;
 
+//Setup buttons of months
 let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
 let daysOfNextMonth = getdaysInThisMonth (nextMonth, nextYear);
 let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
 let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 
-// console.log("nextYear "+nextYear)
+ console.log("nextYear "+nextYear)
 // console.log("nextMonth "+nextMonth)
 // console.log("firstDayNextMonth "+firstDayNextMonth)
 
-//Name the months
-let printCurrentMonth = new monthConvert(currentMonth);
-let printNextMonth = new monthConvert(nextMonth);
+
 // console.log("printCurrentMonth "+printCurrentMonth.month)
 // console.log("printNextMonth "+printNextMonth.month)
 
@@ -119,9 +118,9 @@ let printNextMonth = new monthConvert(nextMonth);
  document.getElementById("demo").innerHTML = allOut;
 
 let makeTheBookmaker="";
-makeTheBookmaker += "<div>"+printCurrentMonth.month+"</div>";
+makeTheBookmaker += "<div>"+currentYear+": "+printCurrentMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay());
-makeTheBookmaker += "<div>"+printNextMonth.month+"</div>";
+makeTheBookmaker += "<div>"+nextYear+": "+printNextMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay());
 
 $("#calendarContainer").html(makeTheBookmaker);
@@ -169,11 +168,12 @@ return calendarMapping;
 7. Mappa upp två månader efter varandra [CHECK]
 8. Fel när man byter månader. Dagarna synkar inte. [CHECK]
 9. Månadstalet måste ändras när man går över årsskifte annars adderas de bara. [CHECK]
+10. Åren ändras inte när man går över årskifte [CHECK]
 
 */
 
 $(function(){
-let setNewMonth = 0;
+let setNewMonth = 0; //Initial add number from current month
 
 mappingTwoMonths(setNewMonth)
 
