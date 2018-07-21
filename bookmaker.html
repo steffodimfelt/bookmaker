@@ -42,7 +42,8 @@ Mail: steffo.dimfelt@gmail.com
 Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
-//Setup for global bookingDates array
+//Setup for global bookingDates and global Check in and Check out.
+let checkIn, checkOut;
 let bookingDates =[];
 
 class dayButtons {
@@ -179,7 +180,7 @@ function reservations (bookingDate)
 {
 console.log("bookingDate "+bookingDate)
 
-let bookingMin, bookingMax;
+
 
 //Push till array
 bookingDates.push(bookingDate)
