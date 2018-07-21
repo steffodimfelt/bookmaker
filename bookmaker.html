@@ -9,20 +9,28 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <style>
-    .table {max-width:2em;}
+    
     .table td {padding:0; border:0;}
-    .table-sm td {padding:0.1em; }
+    .table-sm td {padding:0.1em; width:3em;}
     p.btn {width:3em;}
+    .center {        
+        position: absolute;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, 0)       
+        }
+
 </style>
 </head>
 <body>
     <div class="container"> 
             <div id="demo"></div>
-            <div class="p-3">
+            <div class="p-3 center">
+                <div >
                     <button type="button" id="formerMonth" class="btn btn-info">< Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info">Next Month ></button>
-            </div>            
-        <div id="calendarContainer"></div>
-
+                </div>            
+                <div id="calendarContainer" ></div>
+            </div>
     </div>
 
 <script>
@@ -34,13 +42,13 @@ Mail: steffo.dimfelt@gmail.com
 Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
+
+
 class dayButtons {
     constructor(day){
     this._day = day;
     }
     get day(){
-     //Format day number lower than 10
-     if (this._day<=9){this._day="0"+this._day}
         return this._day;
     }
     set day(dayValue){
@@ -71,11 +79,13 @@ function getdaysInThisMonth(m, y) {
  return new Date(y, m+1, 0).getDate();
 }
 
+//Headfunction with basic data
 function mappingTwoMonths(addToMonth)
 {
-//Basic data to build on
+//Basic data 
 let date = new Date();
-// console.log("date "+date)
+let currentDay = date.getDate();
+let startMonth = date.getMonth();
 
 //Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
@@ -97,15 +107,15 @@ let daysOfNextMonth = getdaysInThisMonth (nextMonth, nextYear);
 let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
 let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 
- console.log("nextYear "+nextYear)
+//  console.log("nextYear "+nextYear)
 // console.log("nextMonth "+nextMonth)
 // console.log("firstDayNextMonth "+firstDayNextMonth)
 
 
-// console.log("printCurrentMonth "+printCurrentMonth.month)
+ console.log("printCurrentMonth "+printCurrentMonth.month)
 // console.log("printNextMonth "+printNextMonth.month)
 
- let allOut="";
+//  let allOut="";
 // allOut += "Detta år:"+date+"<br>";
  //allOut += "Denna månad nr:"+currentMonth+"<br>";
 //     allOut += "Nästa månad nr:"+nextMonth+"<br>";
@@ -115,11 +125,11 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 // allOut += "Första dagen denna månad "+ firstDayCurrentMonth.getDay() +"<br>";
 // allOut += "Första dagen nästa månad "+ firstDayNextMonth +"<br>";
 // allOut += "Första dagen nästa månad "+ firstDayNextMonth.getDay() +"<br>";
- document.getElementById("demo").innerHTML = allOut;
+//  document.getElementById("demo").innerHTML = allOut;
 
 let makeTheBookmaker="";
 makeTheBookmaker += "<div>"+currentYear+": "+printCurrentMonth.month+"</div>";
-makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay());
+makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,startMonth);
 makeTheBookmaker += "<div>"+nextYear+": "+printNextMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay());
 
@@ -128,8 +138,12 @@ $("#calendarContainer").html(makeTheBookmaker);
 
 }//END: mappingTwoMonths
 
-function CalendarMapping(daysInThisMonth,firstDay)
+function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,startMonth)
 {
+  
+    
+    console.log("currentMonth "+currentMonth)
+        console.log("startMonth "+startMonth)
 
 // Mapping calendar
 let ii =1;
@@ -149,7 +163,13 @@ for (i=1;i<=daysInThisMonth;i++)
     //console.log("ii "+ii)
     if (ii==1){ calendarMapping += "<tr >";}
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-    calendarMapping += "<td style='text-align:center; '><button type='button' class='btn btn-primary m-0' >"+thisDay.day+"</button></td>";
+     
+            if (thisDay.day<currentDay&&currentMonth==startMonth)
+            {
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button type='button' class='btn btn-primary m-0 disabled' style=' width:100%;' >"+thisDay.day+"</button></td>";
+            }else{
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%;' >"+thisDay.day+"</button></td>";
+            } 
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
 }
@@ -169,7 +189,10 @@ return calendarMapping;
 8. Fel när man byter månader. Dagarna synkar inte. [CHECK]
 9. Månadstalet måste ändras när man går över årsskifte annars adderas de bara. [CHECK]
 10. Åren ändras inte när man går över årskifte [CHECK]
-
+11. Lås dagar som är äldre än "dagens datum" [CHECK]
+12. Centrera hela kalendern. [CHECK]
+13. Alla knappar är lika breda [CHECK]
+14. Lås val och gör gul. 
 */
 
 $(function(){
@@ -183,7 +206,7 @@ $("#formerMonth").click(function(){
     mappingTwoMonths(setNewMonth)
 });
 $("#nextMonth").click(function(){
-    setNewMonth>=206? setNewMonth=206: setNewMonth ++;
+    setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
     mappingTwoMonths(setNewMonth)
 });
 })
