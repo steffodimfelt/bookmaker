@@ -27,7 +27,7 @@
             <div id="demo"></div>
             <div class="p-3 center">
                 <div >
-                    <button type="button" id="formerMonth" class="btn btn-info">< Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info">Next Month ></button>
+                    <button type="button" id="formerMonth" class="btn btn-info">&larr; Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info">Next Month &rarr;</button>
                 </div>            
                 <div id="calendarContainer" ></div>
             </div>
@@ -42,7 +42,8 @@ Mail: steffo.dimfelt@gmail.com
 Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
-let bookingDates =[1];
+//Setup for global bookingDates array
+let bookingDates =[];
 
 class dayButtons {
     constructor(day){
@@ -174,7 +175,37 @@ calendarMapping += "</table>";
 return calendarMapping;
 }//END: Function CalendarMapping
 
+function reservations (bookingDate)
+{
+console.log("bookingDate "+bookingDate)
 
+let bookingMin, bookingMax;
+
+//Push till array
+bookingDates.push(bookingDate)
+console.log("bookingDates "+bookingDates)
+
+//sortera array efter minsta valör till högsta
+
+//Ta det lägsta och lägg i en variabel
+
+//Ta det högsta och lägg i en variabel
+
+//Pusha lägsta valören
+
+//Sätt alla knappar som är class bookie-btn till default
+
+//Loopa igenom från lägsta och stanna vid högsta
+
+//Formatera samtidigt knapparna till gult
+
+
+
+
+
+
+    
+}
 
 /* Körschema
 1. Gör en funktion som mappar upp en månad [CHECK]
@@ -192,6 +223,8 @@ return calendarMapping;
 13. Alla knappar är lika breda [CHECK]
 14. Registrera val [CHECK]
 15. Spara val i en array.  
+16. Ändra färg på valen. 
+17. Gör en function för att hantera val. 
 */
 
 $(function(){
@@ -211,9 +244,7 @@ $("#nextMonth").click(function(){
 
 //Bookie Button setup
 $('.bookie-btn').click(function(){
-   // console.log("bookingDates "+bookingDates)
-    var bookingDate = $(this).attr('id');
-   console.log("bookingDate "+bookingDate)
+   reservations ($(this).attr('id'));
  });
 })
 
