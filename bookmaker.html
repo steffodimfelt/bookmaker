@@ -42,7 +42,7 @@ Mail: steffo.dimfelt@gmail.com
 Sluggo The Bookmaker uses jQuery and ECMA 6
 */
 
-
+let bookingDates =[1];
 
 class dayButtons {
     constructor(day){
@@ -112,7 +112,7 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 // console.log("firstDayNextMonth "+firstDayNextMonth)
 
 
- console.log("printCurrentMonth "+printCurrentMonth.month)
+ //console.log("printCurrentMonth "+printCurrentMonth.month)
 // console.log("printNextMonth "+printNextMonth.month)
 
 //  let allOut="";
@@ -129,7 +129,7 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 
 let makeTheBookmaker="";
 makeTheBookmaker += "<div>"+currentYear+": "+printCurrentMonth.month+"</div>";
-makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,startMonth);
+makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
 makeTheBookmaker += "<div>"+nextYear+": "+printNextMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay());
 
@@ -138,13 +138,9 @@ $("#calendarContainer").html(makeTheBookmaker);
 
 }//END: mappingTwoMonths
 
-function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,startMonth)
+function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,currentYear,startMonth)
 {
   
-    
-    console.log("currentMonth "+currentMonth)
-        console.log("startMonth "+startMonth)
-
 // Mapping calendar
 let ii =1;
 let calendarMapping = "<table class='table table-sm m-0' >";
@@ -166,9 +162,9 @@ for (i=1;i<=daysInThisMonth;i++)
      
             if (thisDay.day<currentDay&&currentMonth==startMonth)
             {
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button type='button' class='btn btn-primary m-0 disabled' style=' width:100%;' >"+thisDay.day+"</button></td>";
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%;' >"+thisDay.day+"</button></td>";
             }else{
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%;' >"+thisDay.day+"</button></td>";
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+currentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%;' >"+thisDay.day+"</button></td>";
             } 
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
@@ -177,6 +173,8 @@ calendarMapping += "</table>";
 
 return calendarMapping;
 }//END: Function CalendarMapping
+
+
 
 /* Körschema
 1. Gör en funktion som mappar upp en månad [CHECK]
@@ -192,7 +190,8 @@ return calendarMapping;
 11. Lås dagar som är äldre än "dagens datum" [CHECK]
 12. Centrera hela kalendern. [CHECK]
 13. Alla knappar är lika breda [CHECK]
-14. Lås val och gör gul. 
+14. Registrera val [CHECK]
+15. Spara val i en array.  
 */
 
 $(function(){
@@ -209,6 +208,13 @@ $("#nextMonth").click(function(){
     setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
     mappingTwoMonths(setNewMonth)
 });
+
+//Bookie Button setup
+$('.bookie-btn').click(function(){
+   // console.log("bookingDates "+bookingDates)
+    var bookingDate = $(this).attr('id');
+   console.log("bookingDate "+bookingDate)
+ });
 })
 
 
