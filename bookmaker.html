@@ -133,7 +133,7 @@ let makeTheBookmaker="";
 makeTheBookmaker += "<div>"+currentYear+": "+printCurrentMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
 makeTheBookmaker += "<div>"+nextYear+": "+printNextMonth.month+"</div>";
-makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay());
+makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),currentDay,nextMonth,nextYear,startMonth);
 
 $("#calendarContainer").html(makeTheBookmaker);
 
@@ -142,7 +142,8 @@ $("#calendarContainer").html(makeTheBookmaker);
 
 function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,currentYear,startMonth)
 {
-  
+if (currentMonth<=9){currentMonth="0"+currentMonth} 
+
 // Mapping calendar
 let ii =1;
 let calendarMapping = "<table class='table table-sm m-0' >";
@@ -164,8 +165,10 @@ for (i=1;i<=daysInThisMonth;i++)
      
             if (thisDay.day<currentDay&&currentMonth==startMonth)
             {
+                if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%;' >"+thisDay.day+"</button></td>";
             }else{
+                if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+currentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%;' >"+thisDay.day+"</button></td>";
             } 
     if (ii>=7){ calendarMapping += "</tr>";}
@@ -178,10 +181,8 @@ return calendarMapping;
 
 function reservations (bookingDate)
 {
-
-
-
-// console.log("bookingDate "+bookingDate)
+    console.log("bookingDates "+bookingDates)
+console.log("bookingDate "+bookingDate)
 // console.log("checkIn före"+checkIn)
 // bookingDate<= checkIn ? console.log("Mindre"):console.log("större");
 
@@ -190,20 +191,44 @@ function reservations (bookingDate)
 //     console.log("mindre än checkin")
 //     console.log("mindre än checkout")
 // }
+// if (bookingDate>checkIn&&bookingDate>checkOut)
+// {
+//     console.log("större än checkin")
+//     console.log("större än checkout")
+// }
+
+//Local function to evaluate day out of button id
+function dayDetection(dateToEval)
+{
+    dateToEval = dateToEval.slice(-2);
+    console.log("dateToEval "+dateToEval)
+}
+
+
 if (bookingDate>checkIn&&bookingDate<=checkOut)
 {
-    console.log("bookingDate "+bookingDate)
-    console.log("större än checkin")
-    console.log("mindre än eller lika med checkout")
+    // console.log("bookingDate "+bookingDate)
+    // console.log("större än checkin")
+    // console.log("mindre än eller lika med checkout")
 
     checkOut = bookingDate;
     bookingDates=[];
     $(".bookie-btn").removeClass( "bg-warning" );
-    for (checkCount=checkIn;checkCount<checkOut;checkCount++)
+    for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
     {
+
+        let getDayOut = checkCount.toString().slice(-2)
+        getDayOut = parseInt(getDayOut);
+        if (getDayOut<=31)
+        {
         // console.log("checkCount new "+checkCount)
         $("#"+checkCount).addClass( "bg-warning" );
         bookingDates.push(checkCount)
+        }
+        console.log("bookingDates "+bookingDates)
+
+        console.log("checkCount "+checkCount)
+        console.log("checkIn "+checkIn)
     }
 
 
@@ -224,24 +249,36 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
 
         //Sätt alla knappar som är class bookie-btn till default
        // $(".bookie-btn").addClass( "bg-secondary" );
-
+       if (checkIn==checkOut)
+       {
+        $(".bookie-btn").removeClass( "bg-warning" );
+       }
 
         bookingDates=[];
         //Loopa igenom från lägsta och stanna vid högsta
         //Formatera samtidigt knapparna till gult
         for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
         {
-            console.log("checkCount "+checkCount)
-            $("#"+checkCount).addClass( "bg-warning" );
-            bookingDates.push(checkCount)
+            console.log("bookingDate "+bookingDate)
+        console.log("checkIn "+checkIn)
+            // console.log("checkCount "+checkCount)
+            // $("#"+checkCount).addClass( "bg-warning" );
+            // bookingDates.push(checkCount)
+
+            let getDayOut = checkCount.toString().slice(-2)
+            getDayOut = parseInt(getDayOut);
+
+        if (getDayOut<=31)
+        {
+        // console.log("checkCount new "+checkCount)
+        $("#"+checkCount).addClass( "bg-warning" );
+        bookingDates.push(checkCount)
+        }
+        console.log("bookingDates "+bookingDates)
         }
 }
 
-// if (bookingDate>checkIn&&bookingDate>checkOut)
-// {
-//     console.log("större än checkin")
-//     console.log("större än checkout")
-// }
+
 
 
 //console.log("bookingDates före "+bookingDates);
@@ -256,7 +293,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
 
 //Nollställ array
 
-console.log("bookingDates efter "+bookingDates);
+// console.log("bookingDates efter "+bookingDates);
 
 
 
@@ -281,6 +318,9 @@ console.log("bookingDates efter "+bookingDates);
 15. Spara val i en array.  [CHECK]
 16. Ändra färg på valen. [CHECK]
 17. Gör en function för att hantera val. [CHECK]
+18. Gör det möjligt att boka tvärs över månader. [CHECK]
+19. Rensa upp dubbelkod som adderar till array och skriver ut nya färger (gula) på knapparna
+20. Ändra från gul till blå när man klickar på en ensam knapp. 
 */
 
 $(function(){
