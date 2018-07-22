@@ -27,7 +27,7 @@
             <div id="demo"></div>
             <div class="p-3 center">
                 <div >
-                    <button type="button" id="formerMonth" class="btn btn-info">&larr; Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info">Next Month &rarr;</button>
+                    <button type="button" id="formerMonth" class="btn btn-info" style="width:49.3%;">&larr; Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.3%;">Next Month &rarr;</button>
                 </div>            
                 <div id="calendarContainer" ></div>
             </div>
@@ -178,30 +178,85 @@ return calendarMapping;
 
 function reservations (bookingDate)
 {
-console.log("bookingDate "+bookingDate)
 
 
 
-//Push till array
-bookingDates.push(bookingDate)
-console.log("bookingDates "+bookingDates)
+// console.log("bookingDate "+bookingDate)
+// console.log("checkIn före"+checkIn)
+// bookingDate<= checkIn ? console.log("Mindre"):console.log("större");
 
-//sortera array efter minsta valör till högsta
+// if (bookingDate<=checkIn&&bookingDate<checkOut)
+// {
+//     console.log("mindre än checkin")
+//     console.log("mindre än checkout")
+// }
+if (bookingDate>checkIn&&bookingDate<=checkOut)
+{
+    console.log("bookingDate "+bookingDate)
+    console.log("större än checkin")
+    console.log("mindre än eller lika med checkout")
 
-//Ta det lägsta och lägg i en variabel
-
-//Ta det högsta och lägg i en variabel
-
-//Pusha lägsta valören
-
-//Sätt alla knappar som är class bookie-btn till default
-
-//Loopa igenom från lägsta och stanna vid högsta
-
-//Formatera samtidigt knapparna till gult
+    checkOut = bookingDate;
+    bookingDates=[];
+    $(".bookie-btn").removeClass( "bg-warning" );
+    for (checkCount=checkIn;checkCount<checkOut;checkCount++)
+    {
+        // console.log("checkCount new "+checkCount)
+        $("#"+checkCount).addClass( "bg-warning" );
+        bookingDates.push(checkCount)
+    }
 
 
+}else{
+        //Push till array
+        bookingDates.push(bookingDate)
 
+        //sortera array efter minsta valör till högsta
+        bookingDates = bookingDates.sort((a, b) => a - b);
+
+        //Ta det lägsta och lägg i en variabel
+        checkIn = bookingDates[0];
+        // console.log("checkIn "+checkIn)
+
+        //Ta det högsta och lägg i en variabel
+        checkOut = bookingDates[bookingDates.length-1];
+        // console.log("checkOut "+checkOut)
+
+        //Sätt alla knappar som är class bookie-btn till default
+       // $(".bookie-btn").addClass( "bg-secondary" );
+
+
+        bookingDates=[];
+        //Loopa igenom från lägsta och stanna vid högsta
+        //Formatera samtidigt knapparna till gult
+        for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
+        {
+            console.log("checkCount "+checkCount)
+            $("#"+checkCount).addClass( "bg-warning" );
+            bookingDates.push(checkCount)
+        }
+}
+
+// if (bookingDate>checkIn&&bookingDate>checkOut)
+// {
+//     console.log("större än checkin")
+//     console.log("större än checkout")
+// }
+
+
+//console.log("bookingDates före "+bookingDates);
+
+
+//bookingDates=[];
+
+
+
+
+
+
+//Nollställ array
+
+console.log("bookingDates efter "+bookingDates);
 
 
 
@@ -223,9 +278,9 @@ console.log("bookingDates "+bookingDates)
 12. Centrera hela kalendern. [CHECK]
 13. Alla knappar är lika breda [CHECK]
 14. Registrera val [CHECK]
-15. Spara val i en array.  
-16. Ändra färg på valen. 
-17. Gör en function för att hantera val. 
+15. Spara val i en array.  [CHECK]
+16. Ändra färg på valen. [CHECK]
+17. Gör en function för att hantera val. [CHECK]
 */
 
 $(function(){
