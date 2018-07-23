@@ -20,6 +20,8 @@
         transform: translate(-50%, 0)       
         }
 
+
+
 </style>
 </head>
 <body>
@@ -27,9 +29,15 @@
             <div id="demo"></div>
             <div class="p-3 center">
                 <div >
-                    <button type="button" id="formerMonth" class="btn btn-info" style="width:49.3%;">&larr; Previous Month</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.3%;">Next Month &rarr;</button>
+                    <button type="button" id="formerMonth" class="btn btn-info" style="width:49.3%;">&larr; Föregående</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.3%;">Nästa&rarr;</button>
                 </div>            
                 <div id="calendarContainer" ></div>
+                <div class="alert alert-info mt-3">
+                    <div id="checkIn">Check in:</div>
+                    <div id="checkOut">Check out:</div>
+                </div>
+
+                <div id"error"></div>
             </div>
     </div>
 
@@ -130,15 +138,15 @@ let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 //  document.getElementById("demo").innerHTML = allOut;
 
 let makeTheBookmaker="";
-makeTheBookmaker += "<div>"+currentYear+": "+printCurrentMonth.month+"</div>";
+makeTheBookmaker += "<div class='alert alert-primary mt-3'>"+currentYear+": "+printCurrentMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
-makeTheBookmaker += "<div>"+nextYear+": "+printNextMonth.month+"</div>";
+makeTheBookmaker += "<div class='alert alert-primary mt-3'>"+nextYear+": "+printNextMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),currentDay,nextMonth,nextYear,startMonth);
 
 $("#calendarContainer").html(makeTheBookmaker);
 
 //START: Prints out checked buttons
-for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#"+checkCount).addClass( "bg-warning" );}
+if (checkIn!=""){for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#"+checkCount).addClass( "bg-warning" );}
 //END: Prints out checked buttons, Maybe not the best solution
 
 }//END: mappingTwoMonths
@@ -169,10 +177,10 @@ for (i=1;i<=daysInThisMonth;i++)
             if (thisDay.day<currentDay&&currentMonth==startMonth)
             {
                 if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%;' >"+thisDay.day+"</button></td>";
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             }else{
                 if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+currentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%;' >"+thisDay.day+"</button></td>";
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+currentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             } 
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
@@ -207,9 +215,9 @@ function dayDetection(dateToEval)
    // console.log("dateToEval "+dateToEval)
 }
 
-console.log("bookingDate "+bookingDate)
-console.log("checkIn "+checkIn)
-console.log("checkOut "+checkOut)
+// console.log("bookingDate "+bookingDate)
+// console.log("checkIn "+checkIn)
+// console.log("checkOut "+checkOut)
 
 if (bookingDate>checkIn&&bookingDate<=checkOut)
 {
@@ -298,7 +306,8 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         }
 }
 
-
+$("#checkIn").html("Check in: "+checkIn);
+$("#checkOut").html("Check out: "+checkOut);
 
 
 //console.log("bookingDates före "+bookingDates);
