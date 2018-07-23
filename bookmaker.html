@@ -137,6 +137,9 @@ makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),c
 
 $("#calendarContainer").html(makeTheBookmaker);
 
+//START: Prints out checked buttons
+for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#"+checkCount).addClass( "bg-warning" );}
+//END: Prints out checked buttons, Maybe not the best solution
 
 }//END: mappingTwoMonths
 
@@ -201,7 +204,7 @@ console.log("bookingDate "+bookingDate)
 function dayDetection(dateToEval)
 {
     dateToEval = dateToEval.slice(-2);
-    console.log("dateToEval "+dateToEval)
+   // console.log("dateToEval "+dateToEval)
 }
 
 
@@ -225,10 +228,10 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         $("#"+checkCount).addClass( "bg-warning" );
         bookingDates.push(checkCount)
         }
-        console.log("bookingDates "+bookingDates)
+        // console.log("bookingDates "+bookingDates)
 
-        console.log("checkCount "+checkCount)
-        console.log("checkIn "+checkIn)
+        // console.log("checkCount "+checkCount)
+        // console.log("checkIn "+checkIn)
     }
 
 
@@ -259,8 +262,8 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         //Formatera samtidigt knapparna till gult
         for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
         {
-            console.log("bookingDate "+bookingDate)
-        console.log("checkIn "+checkIn)
+        //     console.log("bookingDate "+bookingDate)
+        // console.log("checkIn "+checkIn)
             // console.log("checkCount "+checkCount)
             // $("#"+checkCount).addClass( "bg-warning" );
             // bookingDates.push(checkCount)
@@ -274,7 +277,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         $("#"+checkCount).addClass( "bg-warning" );
         bookingDates.push(checkCount)
         }
-        console.log("bookingDates "+bookingDates)
+        // console.log("bookingDates "+bookingDates)
         }
 }
 
@@ -332,17 +335,31 @@ $("#formerMonth").click(function(){
    
     setNewMonth<=0? setNewMonth=0: setNewMonth --;
     mappingTwoMonths(setNewMonth)
+
+    bookieSetup()   
+
 });
 $("#nextMonth").click(function(){
     setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
     mappingTwoMonths(setNewMonth)
+
+    bookieSetup()
+
 });
 
-//Bookie Button setup
-$('.bookie-btn').click(function(){
-   reservations ($(this).attr('id'));
- });
-})
+function bookieSetup()
+{
+    $('.bookie-btn').click(function(){
+    reservations ($(this).attr('id'));
+    });
+}
+
+bookieSetup()
+
+
+
+
+});//END: jquery
 
 
 </script>  
