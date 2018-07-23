@@ -184,8 +184,8 @@ return calendarMapping;
 
 function reservations (bookingDate)
 {
-    console.log("bookingDates "+bookingDates)
-console.log("bookingDate "+bookingDate)
+//     console.log("bookingDates "+bookingDates)
+// console.log("bookingDate "+bookingDate)
 // console.log("checkIn före"+checkIn)
 // bookingDate<= checkIn ? console.log("Mindre"):console.log("större");
 
@@ -207,6 +207,9 @@ function dayDetection(dateToEval)
    // console.log("dateToEval "+dateToEval)
 }
 
+console.log("bookingDate "+bookingDate)
+console.log("checkIn "+checkIn)
+console.log("checkOut "+checkOut)
 
 if (bookingDate>checkIn&&bookingDate<=checkOut)
 {
@@ -219,7 +222,6 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
     $(".bookie-btn").removeClass( "bg-warning" );
     for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
     {
-
         let getDayOut = checkCount.toString().slice(-2)
         getDayOut = parseInt(getDayOut);
         if (getDayOut<=31)
@@ -233,7 +235,22 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         // console.log("checkCount "+checkCount)
         // console.log("checkIn "+checkIn)
     }
+}else if (bookingDate==checkIn){
 
+
+    if(checkIn==checkOut)
+    {
+        $(".bookie-btn").removeClass( "bg-warning" );
+        bookingDates=[];
+        checkIn="";
+        checkOut="";
+
+    }else{
+        $(".bookie-btn").removeClass( "bg-warning" );
+        $("#"+checkIn).addClass( "bg-warning" );
+        checkIn = bookingDate;
+        checkOut = bookingDate;
+    }
 
 }else{
         //Push till array
@@ -322,8 +339,9 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
 16. Ändra färg på valen. [CHECK]
 17. Gör en function för att hantera val. [CHECK]
 18. Gör det möjligt att boka tvärs över månader. [CHECK]
-19. Rensa upp dubbelkod som adderar till array och skriver ut nya färger (gula) på knapparna
-20. Ändra från gul till blå när man klickar på en ensam knapp. 
+19. Rensa upp dubbelkod som adderar till array och skriver ut nya färger (gula) på knapparna [CHECK]
+20. Ändra från gul till blå när checkIn och checkUt är samma. 
+21. Skriver ut checkade knappar när man klickar på next och previous buttons [CHECK]
 */
 
 $(function(){
