@@ -227,7 +227,7 @@ function reservationsPrint ()
     {
         for (ii=registedReservations[i][0];ii<=registedReservations[i][1];ii++)
         {
-            $("#"+ii).addClass( "bg-danger" ).addClass("disabled");
+            $("#"+ii).addClass("bg-danger disabled");
         }
     }
 }
@@ -235,7 +235,7 @@ function reservationsPrint ()
 
 function reservations (bookingDate)
 {
-    $("#messenger").html("").removeClass("bg-warning").removeClass("p-3 text-dark text-white");
+    $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
 
 //Local function to evaluate day out of button id
 function dayDetection(dateToEval){dateToEval = dateToEval.slice(-2);}
@@ -330,6 +330,10 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
 
 function register()
 {
+   if (bookingDates=="")
+   {
+    $("#messenger").html("Det går inte registrera tomma bokningar!").addClass("bg-warning p-3 text-dark");
+   }else{
     registedReservations.push([checkIn,checkOut])
     reservationsPrint ();
     $("#messenger").html("Tack för din bokning").addClass("bg-success p-3 text-white");
@@ -337,18 +341,22 @@ function register()
     $("#checkOut").html("Check out:")
     checkIn=checkOut="";
     bookingDates=[];
+   }
+
 }
 
 $(function(){
 let setNewMonth = 0; //Initial add number from current month
 mappingTwoMonths(setNewMonth)
 $("#formerMonth").click(function(){ 
+    $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
     setNewMonth<=0? setNewMonth=0: setNewMonth --;
     mappingTwoMonths(setNewMonth)
     bookieSetup();
     reservationsPrint ();   
 });
 $("#nextMonth").click(function(){
+    $("#messenger").html("").removeClass("bg-warning bg-success  p-3 text-dark text-white");
     setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
     mappingTwoMonths(setNewMonth)
     bookieSetup();
