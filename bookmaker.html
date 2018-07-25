@@ -61,6 +61,8 @@ Sluggo The Bookmaker uses jQuery and ECMA 6
 //Setup for global bookingDates and global Check in and Check out.
 let checkIn, checkOut;
 let bookingDates =[];
+let dateStart = new Date();
+let startYear = dateStart.getFullYear();
 
 //Array for TEST
 let registedReservations =[];
@@ -107,6 +109,7 @@ let date = new Date();
 let currentDay = date.getDate();
 let startMonth = date.getMonth();
 
+
 //Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
@@ -123,7 +126,13 @@ nextMonth==0 ? nextYear=currentYear+1:nextYear=currentYear;
 
 //TENP SETUP FOR TEST ---
 let tempNextMonth;
-if (nextMonth<=9){tempNextMonth="0"+nextMonth} 
+console.log("nextMonth "+nextMonth)
+if (nextMonth<=9){tempNextMonth="0"+nextMonth}
+if (nextMonth==10){tempNextMonth="10"}
+if (nextMonth==11){tempNextMonth="11"}
+if (nextMonth==0){tempNextMonth="00"}
+
+console.log("tempNextMonth "+tempNextMonth)
 while(registedReservations.push([]) < 2);
 registedReservations[0][0] = nextYear+tempNextMonth+20;
 registedReservations[0][1] = nextYear+tempNextMonth+22;
@@ -170,8 +179,7 @@ for (i=1;i<=daysInThisMonth;i++)
   let thisDay = new dayButtons(i);
     if (ii==1){ calendarMapping += "<tr >";}
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-     
-            if (thisDay.day<currentDay&&currentMonth==startMonth)
+            if (thisDay.day<currentDay&&currentMonth==startMonth&&currentYear==startYear)
             {
                 if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
@@ -200,6 +208,7 @@ function reservationsPrint ()
         }
     }
 }
+
 
 function reservations (bookingDate)
 {
