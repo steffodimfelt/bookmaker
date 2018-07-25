@@ -87,7 +87,7 @@ class monthConvert{
     get month()
     {
         //Array of names
-        let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
+        let monthOut = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December","Tretton"];
         return monthOut[this._month];
     }
     set month(monthValue)
@@ -107,37 +107,53 @@ function mappingTwoMonths(addToMonth)
 //Basic data 
 let date = new Date();
 let currentDay = date.getDate();
-let startMonth = date.getMonth();
+let startMonth = date.getMonth()+1;
 
 
 //Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
 let nextMonth = currentMonth+1;
-    nextMonth==12&&(nextMonth=0)
-//Name the months
-let printCurrentMonth = new monthConvert(currentMonth);
-let printNextMonth = new monthConvert(nextMonth);
 
 //Setup year format
 let currentYear = date.getFullYear();
 let nextYear;
-nextMonth==0 ? nextYear=currentYear+1:nextYear=currentYear;
+if (nextMonth==12 )
+{
+    nextYear=currentYear+1;
+    nextMonth=0
+}else{
+    nextYear=currentYear;
+}
+
+//Name the months
+let printCurrentMonth = new monthConvert(currentMonth);
+let printNextMonth = new monthConvert(nextMonth);
 
 //TENP SETUP FOR TEST ---
 let tempNextMonth;
-console.log("nextMonth "+nextMonth)
 if (nextMonth<=9){tempNextMonth="0"+nextMonth}
 if (nextMonth==10){tempNextMonth="10"}
 if (nextMonth==11){tempNextMonth="11"}
-if (nextMonth==0){tempNextMonth="00"}
+if (nextMonth==12){tempNextMonth="12"}
 
-console.log("tempNextMonth "+tempNextMonth)
-while(registedReservations.push([]) < 2);
-registedReservations[0][0] = nextYear+tempNextMonth+20;
-registedReservations[0][1] = nextYear+tempNextMonth+22;
-registedReservations[1][0] = nextYear+tempNextMonth+10;
-registedReservations[1][1] = nextYear+tempNextMonth+12;
+while(registedReservations.push([]) < 8);
+registedReservations[0][0] = "20181022";
+registedReservations[0][1] = "20181024";
+registedReservations[1][0] = "20180815";
+registedReservations[1][1] = "20180820";
+registedReservations[2][0] = "20180705";
+registedReservations[2][1] = "20180710";
+registedReservations[3][0] = "20181208";
+registedReservations[3][1] = "20181212";
+registedReservations[4][0] = "20190105";
+registedReservations[4][1] = "20190110";
+registedReservations[5][0] = "20181113";
+registedReservations[5][1] = "20181117";
+registedReservations[6][0] = "20181209";
+registedReservations[6][1] = "20181209";
+registedReservations[7][0] = "20180906";
+registedReservations[7][1] = "20180912";
 
 //Setup buttons of months
 let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
@@ -162,6 +178,9 @@ function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,curren
 {
 if (currentMonth<=9){currentMonth="0"+currentMonth} 
 
+let tempCurrentMonth = parseInt(currentMonth)+1;
+if (tempCurrentMonth<=9){tempCurrentMonth="0"+tempCurrentMonth} 
+
 // Mapping calendar
 let ii =1;
 let calendarMapping = "<table class='table table-sm m-0' >";
@@ -179,13 +198,14 @@ for (i=1;i<=daysInThisMonth;i++)
   let thisDay = new dayButtons(i);
     if (ii==1){ calendarMapping += "<tr >";}
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-            if (thisDay.day<currentDay&&currentMonth==startMonth&&currentYear==startYear)
+            if (thisDay.day<currentDay&&currentMonth==startMonth-1&&currentYear==startYear)
             {
                 if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             }else{
                 if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+currentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
+                
+                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             } 
     if (ii>=7){ calendarMapping += "</tr>";}
     if (ii<=6){ii++;}else{ii=1;}   
