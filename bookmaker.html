@@ -55,7 +55,7 @@ let checkIn, checkOut;
 let bookingDates =[];
 
 //Array just for TEST. When final it should load bookings only to current Month and next Month
-let registedReservations =[[20180728,20180730],[20180710,20180711]];
+let registedReservations =[];
 
 class dayButtons {
     constructor(day){
@@ -103,6 +103,7 @@ let startMonth = date.getMonth();
 //Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
+
 let nextMonth = currentMonth+1;
     nextMonth==12&&(nextMonth=0)
 //Name the months
@@ -113,6 +114,15 @@ let printNextMonth = new monthConvert(nextMonth);
 let currentYear = date.getFullYear();
 let nextYear;
 nextMonth==0 ? nextYear=currentYear+1:nextYear=currentYear;
+
+//START: TENP SETUP FOR TEST ---
+if (nextMonth<=9){nextMonth="0"+nextMonth} 
+while(registedReservations.push([]) < 2);
+registedReservations[0][0] = nextYear+nextMonth+20;
+registedReservations[0][1] = nextYear+nextMonth+22;
+registedReservations[1][0] = nextYear+nextMonth+10;
+registedReservations[1][1] = nextYear+nextMonth+12;
+//END: TENP SETUP FOR TEST ---
 
 //Setup buttons of months
 let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
@@ -137,7 +147,7 @@ if (checkIn!=""){for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#
 
 function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,currentYear,startMonth)
 {
-if (currentMonth<=9){currentMonth="0"+currentMonth} 
+
 
 // Mapping calendar
 let ii =1;
