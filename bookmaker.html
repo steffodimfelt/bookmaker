@@ -13,12 +13,21 @@
     .table td {padding:0; border:0;}
     .table-sm td {padding:0.1em; width:3em;}
     p.btn {width:3em;}
-    .center {        
-        position: absolute;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, 0)       
+   
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .btn {
+        font-size : 2.5em;
+        padding:0.4em;
         }
+   .container{max-width:100%;}
+   .textbox{
+    font-size : 2.5em;
+   }
+}
 
 
 
@@ -27,17 +36,16 @@
 <body>
     <div class="container"> 
             <div id="demo"></div>
-            <div class="p-3 center">
+            <div class="p-3">
                 <div >
-                    <button type="button" id="formerMonth" class="btn btn-info" style="width:49.3%;">&larr; Föregående</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.3%;">Nästa &rarr;</button>
-                </div>            
+                    <button type="button" id="formerMonth" class="btn btn-info" style="width:50%;">&larr; Föregående</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.35%;">Nästa &rarr;</button>
+                </div> 
+                <div id="error" class="textbox mt-3"></div>           
                 <div id="calendarContainer" ></div>
-                <div class="alert alert-info mt-3">
+                <div class="textbox alert alert-info mt-3">
                     <div id="checkIn">Check in:</div>
                     <div id="checkOut">Check out:</div>
                 </div>
-
-                <div id="error" ></div>
             </div>
     </div>
 
@@ -129,9 +137,9 @@ let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
 let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 
 let makeTheBookmaker="";
-makeTheBookmaker += "<div class='alert alert-primary mt-3'>"+currentYear+": "+printCurrentMonth.month+"</div>";
+makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+currentYear+": "+printCurrentMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
-makeTheBookmaker += "<div class='alert alert-primary mt-3'>"+nextYear+": "+printNextMonth.month+"</div>";
+makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+nextYear+": "+printNextMonth.month+"</div>";
 makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),currentDay,nextMonth,nextYear,startMonth);
 
 $("#calendarContainer").html(makeTheBookmaker);
