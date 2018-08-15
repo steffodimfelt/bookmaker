@@ -35,10 +35,15 @@
 </head>
 <body>
     <div class="container"> 
-            <div id="demo"></div>
+            <div id="demo" class="text-center pt-2"><h1>The Bookmaker</h1></div>
             <div class="p-3">
-                <div >
-                    <button type="button" id="formerMonth" class="btn btn-info" style="width:50%;">&larr; Föregående</button> <button type="button" id="nextMonth" class="btn btn-info" style="width:49.35%;">Nästa &rarr;</button>
+                <div class="row" >
+                    <div class="col">
+                        <button type="button" id="formerMonth" class="btn btn-info" style="width:100%;">&larr; Föregående</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" id="nextMonth" class="btn btn-info" style="width:100%;">Nästa &rarr;</button>
+                    </div>
                 </div>         
                 <div id="calendarContainer" ></div>
                 <div id="messenger" class="textbox mt-3"></div> 
@@ -58,7 +63,7 @@
 Name: The Bookmaker
 Developer: Steffo Dimfelt, 2018
 Mail: steffo.dimfelt@gmail.com
-Sluggo The Bookmaker uses jQuery and ECMA 6
+The Bookmaker uses jQuery and ECMA 6
 */
 
 //Setup for global bookingDates and global Check in and Check out.
@@ -112,11 +117,17 @@ let date = new Date();
 let currentDay = date.getDate();
 let startMonth = date.getMonth()+1;
 
-
 //Setup name of months
 date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
 let nextMonth = currentMonth+1;
+
+if (startMonth==currentMonth+1)
+{
+    $("#formerMonth").addClass("disabled");
+}else{
+    $("#formerMonth").removeClass("disabled");
+}
 
 //Setup year format
 let currentYear = date.getFullYear();
