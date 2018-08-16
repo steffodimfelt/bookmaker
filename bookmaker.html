@@ -46,7 +46,7 @@
                     </div>
                 </div>         
                 <div id="calendarContainer" ></div>
-                <div id="messenger" class="textbox mt-3"></div> 
+                <div id="messenger" class="rounded mt-3"></div> 
                 <div class="textbox alert alert-info mt-3">
                     <div id="checkIn">Check in:</div>
                     <div id="checkOut">Check out:</div>
@@ -71,6 +71,12 @@ let checkIn, checkOut;
 let bookingDates =[];
 let dateStart = new Date();
 let startYear = dateStart.getFullYear();
+
+//Setup messages
+let cannotBookOne = "Det går inte att boka detta datum!";
+let cannotBookMany = "Det går inte att boka dessa datum!";
+let cannotBookEmpty = "Det går inte registrera tomma bokningar!";
+let thanksForBooking = "Tack för din bokning!";
 
 //Array for TEST
 let registedReservations =[];
@@ -166,8 +172,8 @@ registedReservations[5][0] = "20181113";
 registedReservations[5][1] = "20181117";
 registedReservations[6][0] = "20181209";
 registedReservations[6][1] = "20181209";
-registedReservations[7][0] = "20180906";
-registedReservations[7][1] = "20180912";
+registedReservations[7][0] = "20190106";
+registedReservations[7][1] = "20190112";
 
 //Setup buttons of months
 let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
@@ -212,17 +218,15 @@ for (i=1;i<=daysInThisMonth;i++)
   let thisDay = new dayButtons(i);
     if (ii==1){ calendarMapping += "<tr >";}
         if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
+        if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
             if (thisDay.day<currentDay&&currentMonth==startMonth-1&&currentYear==startYear)
             {
-                if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             }else{
-                if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
-                
                 calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
             } 
-    if (ii>=7){ calendarMapping += "</tr>";}
-    if (ii<=6){ii++;}else{ii=1;}   
+    ii>=7&&(calendarMapping+="</tr>");
+    ii<=6?ii++:ii=1; 
 }
 calendarMapping += "</table>";
 
@@ -265,7 +269,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
             //Push till array
             if ($("#"+bookingDate).hasClass("disabled")) 
             {
-                $("#messenger").html("Det går inte att boka detta datum!").addClass("bg-warning p-3 text-dark");
+                $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
             }else{
                 $("#"+checkCount).addClass( "bg-warning" );
                 bookingDates.push(checkCount)
@@ -288,7 +292,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
         //Push till array
         if ($("#"+bookingDate).hasClass("disabled")) 
         {
-            $("#messenger").html("Det går inte att boka detta datum!").addClass("bg-warning p-3 text-dark");
+            $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
         }else{
             bookingDates.push(bookingDate)
         }  
@@ -322,7 +326,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
             {
                 if ($("#"+checkCount).hasClass("disabled")) 
                 {
-                    $("#messenger").html("Det går inte att boka dessa datum!").addClass("bg-warning p-3 text-dark");
+                    $("#messenger").html(cannotBookMany).addClass("bg-warning p-3 text-dark");
                     checkIn=checkOut="";
                 }else{
                     $("#"+checkCount).addClass( "bg-warning" );
@@ -331,8 +335,7 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
             }
         }
 }
-    if (checkIn==undefined){checkIn=""}
-    if (checkOut==undefined){checkOut=""}
+    void 0==checkIn&&(checkIn=""),void 0==checkOut&&(checkOut="");
     $("#checkIn").html("Check in: "+checkIn);
     $("#checkOut").html("Check out: "+checkOut);
 
@@ -343,17 +346,16 @@ function register()
 {
    if (bookingDates=="")
    {
-    $("#messenger").html("Det går inte registrera tomma bokningar!").addClass("bg-warning p-3 text-dark");
+    $("#messenger").html(cannotBookEmpty).addClass("bg-warning p-3 text-dark");
    }else{
     registedReservations.push([checkIn,checkOut])
     reservationsPrint ();
-    $("#messenger").html("Tack för din bokning").addClass("bg-success p-3 text-white");
+    $("#messenger").html(thanksForBooking).addClass("bg-success p-3 text-white");
     $("#checkIn").html("Check in:")
     $("#checkOut").html("Check out:")
     checkIn=checkOut="";
     bookingDates=[];
    }
-
 }
 
 $(function(){
