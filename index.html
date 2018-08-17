@@ -66,6 +66,7 @@ Mail: steffo.dimfelt@gmail.com
 The Bookmaker uses jQuery and ECMA 6
 */
 
+
 //Setup for global bookingDates and global Check in and Check out.
 let checkIn, checkOut;
 let bookingDates =[];
@@ -226,7 +227,7 @@ function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,curren
                     calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
                 }else{
                     let classFormat="btn-primary";
-                    if (thisDay.day==currentDay&&currentMonth==startMonth-1&&currentYear==startYear){classFormat="btn-dark";}
+                    if (thisDay.day==currentDay&&currentMonth==startMonth-1&&currentYear==startYear){classFormat="btn-secondary";}
                     calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn "+classFormat+" m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
                 } 
         ii>=7&&(calendarMapping+="</tr>");
@@ -250,7 +251,7 @@ function reservationsPrint ()
             $("#"+ii).addClass("bg-danger disabled");
             if (ii==fullStartDate)
              {
-                $("#"+ii).removeClass("bg-danger bg-warning").addClass("btn-dark");
+                $("#"+ii).removeClass("bg-danger bg-warning").addClass("btn-secondary");
             }
         }
     }
