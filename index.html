@@ -120,122 +120,117 @@ function getdaysInThisMonth(m, y) {
  return new Date(y, m+1, 0).getDate();
 }
 
-//Headfunction with basic data
 function mappingTwoMonths(addToMonth)
 {
-//Basic data 
-let date = new Date();
-let currentDay = date.getDate();
-let startMonth = date.getMonth()+1;
+    //Setup data 
+    let date = new Date();
+    let currentDay = date.getDate();
+    let startMonth = date.getMonth()+1;
 
-//Setup name of months
-date.setMonth(date.getMonth()+addToMonth);
-let currentMonth = date.getMonth();
-let nextMonth = currentMonth+1;
+    //Setup name of months
+    date.setMonth(date.getMonth()+addToMonth);
+    let currentMonth = date.getMonth();
+    let nextMonth = currentMonth+1;
 
-startMonth==currentMonth+1?$("#previousMonth").hide():$("#previousMonth").show();
+    startMonth==currentMonth+1?$("#previousMonth").hide():$("#previousMonth").show();
 
-//Setup year format
-let currentYear = date.getFullYear();
-let nextYear;
-if (nextMonth==12 )
-{
-    nextYear=currentYear+1;
-    nextMonth=0
-}else{
-    nextYear=currentYear;
-}
+    //Setup year format
+    let currentYear = date.getFullYear();
+    let nextYear;
 
-//Name the months
-let printCurrentMonth = new monthConvert(currentMonth);
-let printNextMonth = new monthConvert(nextMonth);
+    12==nextMonth?(nextYear=currentYear+1,nextMonth=0):nextYear=currentYear;
 
-//TENP SETUP FOR TEST ---
-let tempNextMonth;
-if (nextMonth<=9){tempNextMonth="0"+nextMonth}
-if (nextMonth==10){tempNextMonth="10"}
-if (nextMonth==11){tempNextMonth="11"}
-if (nextMonth==12){tempNextMonth="12"}
+    //Name the months
+    let printCurrentMonth = new monthConvert(currentMonth);
+    let printNextMonth = new monthConvert(nextMonth);
 
-while(registedReservations.push([]) < 8);
-registedReservations[0][0] = "20181022";
-registedReservations[0][1] = "20181024";
-registedReservations[1][0] = "20180815";
-registedReservations[1][1] = "20180820";
-registedReservations[2][0] = "20180705";
-registedReservations[2][1] = "20180710";
-registedReservations[3][0] = "20181208";
-registedReservations[3][1] = "20181212";
-registedReservations[4][0] = "20190105";
-registedReservations[4][1] = "20190110";
-registedReservations[5][0] = "20181113";
-registedReservations[5][1] = "20181117";
-registedReservations[6][0] = "20181209";
-registedReservations[6][1] = "20181209";
-registedReservations[7][0] = "20190106";
-registedReservations[7][1] = "20190112";
+    //START: TEMP SETUP FOR TEST -----------------
+    let tempNextMonth;
+    if (nextMonth<=9){tempNextMonth="0"+nextMonth}
+    if (nextMonth==10){tempNextMonth="10"}
+    if (nextMonth==11){tempNextMonth="11"}
+    if (nextMonth==12){tempNextMonth="12"}
 
-//Setup buttons of months
-let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
-let daysOfNextMonth = getdaysInThisMonth (nextMonth, nextYear);
-let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
-let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
+    while(registedReservations.push([]) < 8);
+    registedReservations[0][0] = "20181022";
+    registedReservations[0][1] = "20181024";
+    registedReservations[1][0] = "20180815";
+    registedReservations[1][1] = "20180820";
+    registedReservations[2][0] = "20180705";
+    registedReservations[2][1] = "20180710";
+    registedReservations[3][0] = "20181208";
+    registedReservations[3][1] = "20181212";
+    registedReservations[4][0] = "20190105";
+    registedReservations[4][1] = "20190110";
+    registedReservations[5][0] = "20181113";
+    registedReservations[5][1] = "20181117";
+    registedReservations[6][0] = "20181209";
+    registedReservations[6][1] = "20181209";
+    registedReservations[7][0] = "20190106";
+    registedReservations[7][1] = "20190112";
+    //END: TEMP SETUP FOR TEST -----------------
 
-let makeTheBookmaker="";
-makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+currentYear+": "+printCurrentMonth.month+"</div>";
-makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
-makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+nextYear+": "+printNextMonth.month+"</div>";
-makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),currentDay,nextMonth,nextYear,startMonth);
+    //Setup buttons of months
+    let daysOfCurrentMonth = getdaysInThisMonth (currentMonth, currentYear);
+    let daysOfNextMonth = getdaysInThisMonth (nextMonth, nextYear);
+    let firstDayCurrentMonth = new Date(currentYear, currentMonth, 1);
+    let firstDayNextMonth = new Date(nextYear, nextMonth, 1);
 
-$("#calendarContainer").html(makeTheBookmaker);
+    let makeTheBookmaker="";
+    makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+currentYear+": "+printCurrentMonth.month+"</div>";
+    makeTheBookmaker += CalendarMapping(daysOfCurrentMonth,firstDayCurrentMonth.getDay(),currentDay,currentMonth,currentYear,startMonth);
+    makeTheBookmaker += "<div class='textbox alert alert-primary mt-3'>"+nextYear+": "+printNextMonth.month+"</div>";
+    makeTheBookmaker += CalendarMapping(daysOfNextMonth,firstDayNextMonth.getDay(),currentDay,nextMonth,nextYear,startMonth);
 
-//START: Prints out checked buttons
-if (checkIn!=""){for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#"+checkCount).addClass( "bg-warning" );}}
+    $("#calendarContainer").html(makeTheBookmaker);
 
-}//END: mappingTwoMonths
+    //START: Prints out checked buttons
+    if (checkIn!=""){for (checkCount=checkIn;checkCount<=checkOut;checkCount++){$("#"+checkCount).addClass( "bg-warning" );}}
+
+}//END: function mappingTwoMonths
 
 function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,currentYear,startMonth)
 {
-if (currentMonth<=9){currentMonth="0"+currentMonth} 
+    if (currentMonth<=9){currentMonth="0"+currentMonth} 
 
-let tempCurrentMonth = parseInt(currentMonth)+1;
-if (tempCurrentMonth<=9){tempCurrentMonth="0"+tempCurrentMonth} 
+    let tempCurrentMonth = parseInt(currentMonth)+1;
+    if (tempCurrentMonth<=9){tempCurrentMonth="0"+tempCurrentMonth} 
 
-// Mapping calendar
-let ii =1;
-let calendarMapping = "<table class='table table-sm m-0' >";
+    // Mapping calendar
+    let ii =1;
+    let calendarMapping = "<table class='table table-sm m-0' >";
 
-//Mapping empty days at beginning of month
-let emptyStartDays="";
-function mapTD(tdVal){for (x=1;x<tdVal;x++)emptyStartDays+="<td></td>";}
+    //Mapping empty days at beginning of month
+    let emptyStartDays="";
+    function mapTD(tdVal){for (x=1;x<tdVal;x++)emptyStartDays+="<td></td>";}
 
-firstDay == 0 ? ii=7 : ii=firstDay;
-mapTD(ii);
+    firstDay == 0 ? ii=7 : ii=firstDay;
+    mapTD(ii);
 
-//Loop through calendardays
-for (i=1;i<=daysInThisMonth;i++) 
-{
-  let thisDay = new dayButtons(i);
-    if (ii==1){ calendarMapping += "<tr >";}
-        if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-        if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
-            if (thisDay.day<currentDay&&currentMonth==startMonth-1&&currentYear==startYear)
-            {
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
-            }else{
-                calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
-            } 
-    ii>=7&&(calendarMapping+="</tr>");
-    ii<=6?ii++:ii=1; 
-}
-calendarMapping += "</table>";
+    //Loop through calendardays
+    for (i=1;i<=daysInThisMonth;i++) 
+    {
+    let thisDay = new dayButtons(i);
+        if (ii==1){ calendarMapping += "<tr >";}
+            if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
+            if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
+                if (thisDay.day<currentDay&&currentMonth==startMonth-1&&currentYear==startYear)
+                {
+                    calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
+                }else{
+                    calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
+                } 
+        ii>=7&&(calendarMapping+="</tr>");
+        ii<=6?ii++:ii=1; 
+    }
+    calendarMapping += "</table>";
 
-return calendarMapping;
+    return calendarMapping;
 }//END: Function CalendarMapping
 
 function reservationsPrint ()
 {
-    //Sätter en disableclass  på alla knappar som redan är reserverade. 
+    //Sets a disable class on all buttons already reserved.
     let reservationIn=reservationOut="";
     
     for(i=0;i<registedReservations.length;i++)
@@ -252,75 +247,68 @@ function reservations (bookingDate)
 {
     $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
 
-//Local function to evaluate day out of button id
-function dayDetection(dateToEval){dateToEval = dateToEval.slice(-2);}
+    //Local function to evaluate day out of button id
+    function dayDetection(dateToEval){dateToEval = dateToEval.slice(-2);}
 
-if (bookingDate>checkIn&&bookingDate<=checkOut)
-{
-    checkOut = bookingDate;
-    bookingDates=[];
-    $(".bookie-btn").removeClass( "bg-warning" );
-    for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
+    if (bookingDate>checkIn&&bookingDate<=checkOut)
     {
-        let getDayOut = checkCount.toString().slice(-2)
-        getDayOut = parseInt(getDayOut);
-        if (getDayOut<=31)
-        {
-            //Push till array
-            if ($("#"+bookingDate).hasClass("disabled")) 
-            {
-                $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
-            }else{
-                $("#"+checkCount).addClass( "bg-warning" );
-                bookingDates.push(checkCount)
-            } 
-        }
-    }
-}else if (bookingDate==checkIn){
-    if(checkIn==checkOut)
-    {
-        $(".bookie-btn").removeClass( "bg-warning" );
-        bookingDates=[];
-        checkIn=checkOut="";
-    }else{
-        $(".bookie-btn").removeClass( "bg-warning" );
-        $("#"+checkIn).addClass( "bg-warning" );
-        checkIn = bookingDate;
         checkOut = bookingDate;
-    }
-}else{
-        //Push till array
-        if ($("#"+bookingDate).hasClass("disabled")) 
-        {
-            $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
-        }else{
-            bookingDates.push(bookingDate)
-        }  
-
-        //sortera array efter minsta valör till högsta
-        bookingDates = bookingDates.sort((a, b) => a - b);
-
-        //Ta det lägsta och lägg i en variabel
-        checkIn = bookingDates[0];
-
-        //Ta det högsta och lägg i en variabel
-        checkOut = bookingDates[bookingDates.length-1];
-
-        //Sätt alla knappar som är class bookie-btn till default
-       if (checkIn==checkOut)
-       {
-        $(".bookie-btn").removeClass( "bg-warning" );
-       }
         bookingDates=[];
-
-        //Loopa igenom från lägsta och stanna vid högsta
-        //Formatera samtidigt knapparna till gult
+        $(".bookie-btn").removeClass( "bg-warning" );
         for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
         {
-            let getDayOut = checkCount.toString().slice(-2)//Slica upp strängen och plocka ut de två sista siffrorna
-            getDayOut = parseInt(getDayOut);//Gör om strängen till siffror
+            let getDayOut = checkCount.toString().slice(-2)
+            getDayOut = parseInt(getDayOut);
+            if (getDayOut<=31)
+            {
+                //Push to array
+                if ($("#"+bookingDate).hasClass("disabled")) 
+                {
+                    $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
+                }else{
+                    $("#"+checkCount).addClass( "bg-warning" );
+                    bookingDates.push(checkCount)
+                } 
+            }
+        }
+    }else if (bookingDate==checkIn){
+        if(checkIn==checkOut)
+        {
+            $(".bookie-btn").removeClass( "bg-warning" );
+            bookingDates=[];
+            checkIn=checkOut="";
+        }else{
+            $(".bookie-btn").removeClass( "bg-warning" );
+            $("#"+checkIn).addClass( "bg-warning" );
+            checkIn = bookingDate;
+            checkOut = bookingDate;
+        }
+    }else{
+        //Push to array
+        $("#"+bookingDate).hasClass("disabled")?$("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark"):bookingDates.push(bookingDate);
 
-            //Förhindrar att adderar onödiga dagar till array. 
+        //Sort array from lowest to highest value
+        bookingDates = bookingDates.sort((a, b) => a - b);
+
+        //Take the lowest value and add a variable
+        checkIn = bookingDates[0];
+
+        //Take the highest value and add a variable
+        checkOut = bookingDates[bookingDates.length-1];
+
+        //Put all buttons that are class bookie-btn to default
+        checkIn==checkOut&&$(".bookie-btn").removeClass("bg-warning");
+
+        bookingDates=[];
+
+        //Loop through from lowest and stay at highest
+        //Simultaneously format the buttons to yellow
+        for (checkCount=checkIn;checkCount<=checkOut;checkCount++)
+        {
+            let getDayOut = checkCount.toString().slice(-2)//Cut the string and pick out the last two digits
+            getDayOut = parseInt(getDayOut);//Convert the string to numbers
+
+            //Prevents adding unnecessary days to array.
             if (getDayOut<=31)
             {
                 if ($("#"+checkCount).hasClass("disabled")) 
@@ -333,13 +321,12 @@ if (bookingDate>checkIn&&bookingDate<=checkOut)
                 }  
             }
         }
-}
+    }
     void 0==checkIn&&(checkIn=""),void 0==checkOut&&(checkOut="");
     $("#checkIn").html("Check in: "+checkIn);
     $("#checkOut").html("Check out: "+checkOut);
 
-
-}//END: reservations
+}//END: function reservations
 
 function register()
 {
@@ -355,43 +342,42 @@ function register()
     checkIn=checkOut="";
     bookingDates=[];
    }
-}
+}//END: function register()
 
-$(function(){
-let setNewMonth = 0; //Initial add number from current month
-mappingTwoMonths(setNewMonth)
-$("#previousMonth").click(function(){ 
-    $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
-    setNewMonth<=0? setNewMonth=0: setNewMonth --;
+$(function()
+{
+    let setNewMonth = 0; //Initial add number from current month
     mappingTwoMonths(setNewMonth)
-    bookieSetup();
-    reservationsPrint ();   
-});
-$("#nextMonth").click(function(){
-    $("#messenger").html("").removeClass("bg-warning bg-success  p-3 text-dark text-white");
-    setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
-    mappingTwoMonths(setNewMonth)
+    $("#previousMonth").click(function(){ 
+        $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
+        setNewMonth<=0? setNewMonth=0: setNewMonth --;
+        mappingTwoMonths(setNewMonth)
+        bookieSetup();
+        reservationsPrint ();   
+    });
+    $("#nextMonth").click(function(){
+        $("#messenger").html("").removeClass("bg-warning bg-success  p-3 text-dark text-white");
+        setNewMonth>=12? setNewMonth=12: setNewMonth ++;//Set max number of months ahed.
+        mappingTwoMonths(setNewMonth)
+        bookieSetup();
+        reservationsPrint ();
+    });
+
+    $("#register").click(function(){
+        register();
+    });
+
+    function bookieSetup()
+    {
+        $('.bookie-btn').click(function(){
+        reservations ($(this).attr('id'));
+        });
+    }
+
     bookieSetup();
     reservationsPrint ();
-});
-
-$("#register").click(function(){
-    register();
-});
-
-function bookieSetup()
-{
-    $('.bookie-btn').click(function(){
-    reservations ($(this).attr('id'));
-    });
-}
-
-bookieSetup();
-reservationsPrint ();
 
 });//END: jquery
-
-
 </script>  
 
 </body>
