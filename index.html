@@ -139,13 +139,13 @@ function mappingTwoMonths(addToMonth)
     let currentMonth = date.getMonth();
     let nextMonth = currentMonth+1;
 
-    startMonth==currentMonth+1?$("#previousMonth").hide():$("#previousMonth").show();
-
     //Setup year format
     let currentYear = date.getFullYear();
     let nextYear;
 
     12==nextMonth?(nextYear=currentYear+1,nextMonth=0):nextYear=currentYear;
+
+    startMonth==currentMonth+1&&startYear==currentYear?$("#previousMonth").hide():$("#previousMonth").show();
 
     //Name the months
     let printCurrentMonth = new monthConvert(currentMonth);
