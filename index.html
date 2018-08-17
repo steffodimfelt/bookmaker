@@ -24,7 +24,7 @@
         padding:0.4em;
         }
    .container{max-width:100%;}
-   .textbox{
+   .textbox, #messenger{
     font-size : 2.5em;
    }
 }
@@ -39,7 +39,7 @@
             <div class="p-3">
                 <div class="row" >
                     <div class="col">
-                        <button type="button" id="formerMonth" class="btn btn-info" style="width:100%;">&larr; Föregående</button>
+                        <button type="button" id="previousMonth" class="btn btn-info" style="width:100%;">&larr; Föregående</button>
                     </div>
                     <div class="col">
                         <button type="button" id="nextMonth" class="btn btn-info" style="width:100%;">Nästa &rarr;</button>
@@ -65,6 +65,11 @@ Developer: Steffo Dimfelt, 2018
 Mail: steffo.dimfelt@gmail.com
 The Bookmaker uses jQuery and ECMA 6
 */
+
+//ToDo
+// - Add own color for today
+// - If not able to book - remove all dates but the check in
+
 
 //Setup for global bookingDates and global Check in and Check out.
 let checkIn, checkOut;
@@ -128,12 +133,7 @@ date.setMonth(date.getMonth()+addToMonth);
 let currentMonth = date.getMonth();
 let nextMonth = currentMonth+1;
 
-if (startMonth==currentMonth+1)
-{
-    $("#formerMonth").addClass("disabled");
-}else{
-    $("#formerMonth").removeClass("disabled");
-}
+startMonth==currentMonth+1?$("#previousMonth").hide():$("#previousMonth").show();
 
 //Setup year format
 let currentYear = date.getFullYear();
@@ -360,7 +360,7 @@ function register()
 $(function(){
 let setNewMonth = 0; //Initial add number from current month
 mappingTwoMonths(setNewMonth)
-$("#formerMonth").click(function(){ 
+$("#previousMonth").click(function(){ 
     $("#messenger").html("").removeClass("bg-warning bg-success p-3 text-dark text-white");
     setNewMonth<=0? setNewMonth=0: setNewMonth --;
     mappingTwoMonths(setNewMonth)
