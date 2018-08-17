@@ -67,7 +67,7 @@ The Bookmaker uses jQuery and ECMA 6
 */
 
 //ToDo
-// - Add own color for today
+// - 
 // - If not able to book - remove all dates but the check in
 
 
@@ -76,6 +76,10 @@ let checkIn, checkOut;
 let bookingDates =[];
 let dateStart = new Date();
 let startYear = dateStart.getFullYear();
+
+let fullDay = dateStart.getDate();
+let fullMonth = convertDay(dateStart.getMonth()+1);
+let fullStartDate = startYear+""+fullMonth+""+fullDay;
 
 //Setup messages
 let cannotBookOne = "Det går inte att boka detta datum!";
@@ -120,6 +124,13 @@ function getdaysInThisMonth(m, y) {
  return new Date(y, m+1, 0).getDate();
 }
 
+//Convert month if day is less than 10
+function convertDay(dayIn)
+{
+    if (dayIn<=9){dayIn="0"+dayIn} 
+    return dayIn;
+}
+
 function mappingTwoMonths(addToMonth)
 {
     //Setup data 
@@ -146,7 +157,8 @@ function mappingTwoMonths(addToMonth)
 
     //START: TEMP SETUP FOR TEST -----------------
     let tempNextMonth;
-    if (nextMonth<=9){tempNextMonth="0"+nextMonth}
+
+    convertDay(nextMonth)
     if (nextMonth==10){tempNextMonth="10"}
     if (nextMonth==11){tempNextMonth="11"}
     if (nextMonth==12){tempNextMonth="12"}
@@ -154,7 +166,7 @@ function mappingTwoMonths(addToMonth)
     while(registedReservations.push([]) < 8);
     registedReservations[0][0] = "20181022";
     registedReservations[0][1] = "20181024";
-    registedReservations[1][0] = "20180815";
+    registedReservations[1][0] = "20180819";
     registedReservations[1][1] = "20180820";
     registedReservations[2][0] = "20180705";
     registedReservations[2][1] = "20180710";
@@ -191,10 +203,10 @@ function mappingTwoMonths(addToMonth)
 
 function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,currentYear,startMonth)
 {
-    if (currentMonth<=9){currentMonth="0"+currentMonth} 
+    currentMonth = convertDay(currentMonth);
 
     let tempCurrentMonth = parseInt(currentMonth)+1;
-    if (tempCurrentMonth<=9){tempCurrentMonth="0"+tempCurrentMonth} 
+    tempCurrentMonth = convertDay(tempCurrentMonth);
 
     // Mapping calendar
     let ii =1;
@@ -213,12 +225,14 @@ function CalendarMapping(daysInThisMonth,firstDay,currentDay,currentMonth,curren
     let thisDay = new dayButtons(i);
         if (ii==1){ calendarMapping += "<tr >";}
             if (emptyStartDays!=""){calendarMapping+=emptyStartDays;emptyStartDays=""}
-            if (thisDay.day<=9){thisDay.day="0"+thisDay.day} 
+            thisDay.day = convertDay(thisDay.day);
                 if (thisDay.day<currentDay&&currentMonth==startMonth-1&&currentYear==startYear)
                 {
                     calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button  type='button' class='btn btn-primary m-0 disabled' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
                 }else{
-                    calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn btn-primary m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
+                    let classFormat="btn-primary";
+                    if (thisDay.day==currentDay&&currentMonth==startMonth-1&&currentYear==startYear){classFormat="btn-dark";}
+                    calendarMapping += "<td style='text-align:center; width:14.2857142857%;' ><button id='"+currentYear+tempCurrentMonth+thisDay.day+"' type='button' class='bookie-btn btn "+classFormat+" m-0' style=' width:100%; border-color: transparent;' >"+thisDay.day+"</button></td>";
                 } 
         ii>=7&&(calendarMapping+="</tr>");
         ii<=6?ii++:ii=1; 
@@ -235,9 +249,14 @@ function reservationsPrint ()
     
     for(i=0;i<registedReservations.length;i++)
     {
+      //  console.log("registedReservations[i][0] "+registedReservations[i][0])
         for (ii=registedReservations[i][0];ii<=registedReservations[i][1];ii++)
         {
             $("#"+ii).addClass("bg-danger disabled");
+            if (ii==fullStartDate)
+             {
+                $("#"+ii).removeClass("bg-danger bg-warning").addClass("btn-dark");
+            }
         }
     }
 }
