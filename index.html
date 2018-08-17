@@ -66,11 +66,6 @@ Mail: steffo.dimfelt@gmail.com
 The Bookmaker uses jQuery and ECMA 6
 */
 
-//ToDo
-// - 
-// - If not able to book - remove all dates but the check in
-
-
 //Setup for global bookingDates and global Check in and Check out.
 let checkIn, checkOut;
 let bookingDates =[];
@@ -333,9 +328,11 @@ function reservations (bookingDate)
                 if ($("#"+checkCount).hasClass("disabled")) 
                 {
                     $("#messenger").html(cannotBookMany).addClass("bg-warning p-3 text-dark");
+                    $(".bookie-btn").removeClass( "bg-warning" );
+                    bookingDates=[];
                     checkIn=checkOut="";
                 }else{
-                    $("#"+checkCount).addClass( "bg-warning" );
+                   $("#"+checkCount).addClass( "bg-warning" );
                     bookingDates.push(checkCount)
                 }  
             }
