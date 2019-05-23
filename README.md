@@ -4,4 +4,3 @@ The Bookmaker is a super easy application, that is ready to use in a snap! The B
 
 The Bookmaker is developed in JavaScript (ECMA6) and jQuery 3.3.1. 
 
-Demo at: http://steffo.info/bookmaker/
