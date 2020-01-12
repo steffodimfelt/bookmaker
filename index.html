@@ -60,8 +60,8 @@
 <script>
 
    /*
-Name: The Bookmaker, v.1.1
-Developer: Steffo Dimfelt, 2018
+Name: The Bookmaker, v.1.2
+Developer: Steffo Dimfelt, 2018 - 2020
 Mail: steffo.dimfelt@gmail.com
 The Bookmaker uses jQuery and ECMA 6
 */
@@ -282,7 +282,7 @@ function reservations (bookingDate)
                     $("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark");
                 }else{
                     $("#"+checkCount).addClass( "bg-warning" );
-                    bookingDates.push(checkCount)
+                    bookingDates.push(checkCount.toString())
                 } 
             }
         }
@@ -295,12 +295,14 @@ function reservations (bookingDate)
         }else{
             $(".bookie-btn").removeClass( "bg-warning" );
             $("#"+checkIn).addClass( "bg-warning" );
+            bookingDates=[];
             checkIn = bookingDate;
             checkOut = bookingDate;
+            bookingDates.push(bookingDate.toString())
         }
     }else{
         //Push to array
-        $("#"+bookingDate).hasClass("disabled")?$("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark"):bookingDates.push(bookingDate);
+        $("#"+bookingDate).hasClass("disabled")?$("#messenger").html(cannotBookOne).addClass("bg-warning p-3 text-dark"):bookingDates.push(bookingDate.toString());
 
         //Sort array from lowest to highest value
         bookingDates = bookingDates.sort((a, b) => a - b);
@@ -310,6 +312,7 @@ function reservations (bookingDate)
 
         //Take the highest value and add a variable
         checkOut = bookingDates[bookingDates.length-1];
+        
 
         //Put all buttons that are class bookie-btn to default
         checkIn==checkOut&&$(".bookie-btn").removeClass("bg-warning");
@@ -334,7 +337,7 @@ function reservations (bookingDate)
                     checkIn=checkOut="";
                 }else{
                    $("#"+checkCount).addClass( "bg-warning" );
-                    bookingDates.push(checkCount)
+                    bookingDates.push(checkCount.toString())
                 }  
             }
         }
